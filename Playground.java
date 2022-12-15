@@ -280,7 +280,7 @@ public class Playground {
     }
 
     private void onRestartGameButtonClicked() {
-        speedObstacle = 0;
+        speedObstacle = 1;
         btnRestartGame.setVisible(false);
         playground.getChildren().remove(lblCounter);
         count = 0;
