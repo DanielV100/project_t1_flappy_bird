@@ -16,8 +16,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.transform.Scale;
-
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -29,12 +27,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Playground {
-    private boolean alreadyHovered = false;
+
+    //declaring and intialising components of the playground
+    private AnchorPane playground = new AnchorPane();
     private Button btnStartGame = new Button();
     private Button btnRestartGame = new Button();
     private TextField tfName = new TextField();
 
-    private AnchorPane playground = new AnchorPane();
     private Label lblCounter = new Label();
     private Label lblLeaderboard = new Label();
 
@@ -50,18 +49,21 @@ public class Playground {
     int count = 0;
     ImagePattern imagePatternObstacle = new ImagePattern(new Image("file:res/obstacle_1.png"));
     ImagePattern imagePatternObstacleRotated = new ImagePattern(new Image("file:res/obstacle_1_rotated.png"));
-    AudioClip acObstaclePassed = new AudioClip("file:res/obstaclePassedSound.mp3");
-    AudioClip acGameMusic = new AudioClip("file:res/gamemusic.mp3");
+
     double speedObstacle = 1;
     double obstDist = 0;
     double obstHeight = 0;
-    FileWriter myWriter;
+    private boolean alreadyHovered = false;
+    private String urlBgImg = "file:res/FlappyFace_1.gif";
+    private String urlBtnSound = "file:res/btnClickSound.m4a";
 
-    public Scene createPlayground(int width, int height, int btnWidth, int btnHeight, String btnColor, String btnTextColor, String btnBorderColor, int tfWidth, int tfHeight, String tfBorderColor, double btnLeftAnchor, double btnTopAnchor, double tfLeftAnchor, double tfTopAnchor, double btnWidthScaleBig, double btnWidthScaleRegular, double btnLeftAnchorScaleBig, double btnLeftAnchorScaleRegular, double obstWidth, double obstMaxDist, double obstMinDist) {
+    public Scene createPlayground(int width, int height, int btnWidth, int btnHeight, String btnColor, String btnTextColor, String btnBorderColor, int tfWidth, int tfHeight, String tfBorderColor, double btnLeftAnchor, double btnTopAnchor, double tfLeftAnchor, double tfTopAnchor, double btnWidthScaleBig, double btnWidthScaleRegular, double btnLeftAnchorScaleBig, double btnLeftAnchorScaleRegular, double obstWidth, double obstMaxDist, double obstMinDist, AudioClip acGameMusic, AudioClip acObstaclePassed) {
+        //playing game music
         acGameMusic.play(0.2);
         //settings for playground;
         playground.setMinSize(width, height);
-        playground.setBackground(setBackground("file:res/FlappyFace_1.gif"));
+        playground.setBackground(setBackground(urlBgImg));
+        //filling leaderboard
         getBestPlayer();
         lblLeaderboard.setFont(Font.font("Roboto", FontWeight.EXTRA_LIGHT, 20));
         lblLeaderboard.setStyle(";-fx-text-fill: #ff0000");
@@ -69,9 +71,16 @@ public class Playground {
         AnchorPane.setTopAnchor(lblLeaderboard, 480.0);
         AnchorPane.setLeftAnchor(lblLeaderboard, 1060.0);
         playground.getChildren().add(lblLeaderboard);
+        //setting up the score counter
+        lblCounter.setFont(Font.font("Roboto", FontWeight.BOLD, 60));
+        lblCounter.setStyle("-fx-text-fill: #ffffff");
+        AnchorPane.setLeftAnchor(lblCounter, 20.0);
+        AnchorPane.setTopAnchor(lblCounter, 20.0);
+        lblCounter.setVisible(false);
+        playground.getChildren().add(lblCounter);
         //adding buttons to the playground
-        playground.getChildren().add(createButton(btnWidth, btnHeight, btnColor, btnTextColor, btnBorderColor, btnWidthScaleBig, btnWidthScaleRegular, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, btnStartGame, "Start Game!", true, false, btnLeftAnchor, btnTopAnchor));
-        playground.getChildren().add(createButton(btnWidth, btnHeight, btnColor, btnTextColor, btnBorderColor, btnWidthScaleBig, btnWidthScaleRegular, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, btnRestartGame, "Restart Game!", false, true, btnLeftAnchor, btnTopAnchor));
+        playground.getChildren().add(createButton(btnWidth, btnHeight, btnColor, btnTextColor, btnBorderColor, btnWidthScaleBig, btnWidthScaleRegular, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, btnStartGame, "Start Game!", true, false, btnLeftAnchor, btnTopAnchor, acGameMusic, acObstaclePassed));
+        playground.getChildren().add(createButton(btnWidth, btnHeight, btnColor, btnTextColor, btnBorderColor, btnWidthScaleBig, btnWidthScaleRegular, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, btnRestartGame, "Restart Game!", false, true, btnLeftAnchor, btnTopAnchor, acGameMusic, acObstaclePassed));
         playground.getChildren().add(createTextField(tfWidth, tfHeight, tfBorderColor));
         AnchorPane.setLeftAnchor(tfName, tfLeftAnchor);
         AnchorPane.setTopAnchor(tfName, tfTopAnchor);
@@ -85,9 +94,12 @@ public class Playground {
         return scene;
     }
 
+    //setting background picture
     private Background setBackground(String path) {
         Image bgImg = new Image(path);
-        BackgroundImage bgImage = new BackgroundImage(bgImg, BackgroundRepeat.NO_REPEAT,
+        BackgroundImage bgImage = new BackgroundImage(
+                bgImg,
+                BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
@@ -95,7 +107,8 @@ public class Playground {
         return bg;
     }
 
-    private Button createButton(int btnWidth, int btnHeight, String btnColor, String btnTextColor, String btnBorderColor, double btnWidthScaleBig, double btnWidthScaleRegular, double btnLeftAnchorScaleBig, double btnLeftAnchorScaleRegular, double obstWidth, double obstMaxDist, double obstMinDist, Button btn, String btnText, boolean btnStart, boolean btnRestart, double btnLeftAnchor, double btnTopAnchor) {
+    //method for creating the buttons (so they look and behave equally)
+    private Button createButton(int btnWidth, int btnHeight, String btnColor, String btnTextColor, String btnBorderColor, double btnWidthScaleBig, double btnWidthScaleRegular, double btnLeftAnchorScaleBig, double btnLeftAnchorScaleRegular, double obstWidth, double obstMaxDist, double obstMinDist, Button btn, String btnText, boolean btnStart, boolean btnRestart, double btnLeftAnchor, double btnTopAnchor, AudioClip acGameMusic, AudioClip acObstaclePassed) {
         btn.setMinWidth(btnWidth);
         btn.setMinHeight(btnHeight);
         btn.setText(btnText);
@@ -105,48 +118,52 @@ public class Playground {
         btn.setOpacity(0.8);
         AnchorPane.setLeftAnchor(btn, btnLeftAnchor);
         AnchorPane.setTopAnchor(btn, btnTopAnchor);
+        //true if it's the Reset Game button
         if (btnRestart) {
             btn.setVisible(false);
-            btn.setOnAction((event) -> onRestartGameButtonClicked());
+            btn.setOnAction((event) -> onRestartGameButtonClicked(acGameMusic, acObstaclePassed));
             btn.setOnMouseEntered((event -> onButtonHover(btnWidthScaleBig, btnWidthScaleRegular, btnHeight, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, btnRestartGame, btnText)));
             btn.setOnMouseExited((event -> onButtonHover(btnWidthScaleBig, btnWidthScaleRegular, btnHeight, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, btnRestartGame, btnText)));
         }
+        //true if it's the Start Game Button
         if (btnStart) {
-            btn.setOnAction((event) -> onStartGameButtonClicked(obstWidth, obstMaxDist, obstMinDist));
+            btn.setOnAction((event) -> onStartGameButtonClicked(obstWidth, obstMaxDist, obstMinDist, acGameMusic, acObstaclePassed));
             btn.setOnMouseExited((event -> onButtonHover(btnWidthScaleBig, btnWidthScaleRegular, btnHeight, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, btnStartGame, btnText)));
             btn.setOnMouseEntered((event -> onButtonHover(btnWidthScaleBig, btnWidthScaleRegular, btnHeight, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, btnStartGame, btnText)));
         }
         return btn;
     }
 
-    private void onStartGameButtonClicked(double obstWidth, double obstMaxDist, double obstMinDist) {
-        lblLeaderboard.setVisible(false);
-        AudioClip ac = new AudioClip("file:res/btnClickSound.m4a");
-        ac.play();
-        lblCounter.setFont(Font.font("Roboto", FontWeight.BOLD, 60));
-        lblCounter.setStyle("-fx-text-fill: #ffffff");
-        AnchorPane.setLeftAnchor(lblCounter, 20.0);
-        AnchorPane.setTopAnchor(lblCounter, 20.0);
-        playground.getChildren().add(lblCounter);
-        playground.setBackground(setBackground("file:res/background.png"));
+    //method is triggerd when the Start Game button is clicked
+    private void onStartGameButtonClicked(double obstWidth, double obstMaxDist, double obstMinDist, AudioClip acGameMusic, AudioClip acObstaclePassed) {
         btnStartGame.setVisible(false);
         tfName.setVisible(false);
+        //leaderboard gets invisible
+        lblLeaderboard.setVisible(false);
+        //"hohoho" is played once
+        AudioClip ac = new AudioClip(urlBtnSound);
+        ac.play();
+        //score counter is now visible
+        lblCounter.setVisible(true);
+        //setting background image
+        playground.setBackground(setBackground("file:res/background.png"));
+        //creating a new player
         player = new Player(tfName.getText(), 80.0);
         AnchorPane.setLeftAnchor(player, 640.0);
         AnchorPane.setTopAnchor(player, 360.0);
         playground.getChildren().add(player);
+        //setting up the obstacles
         setObstacles(obstWidth, obstMaxDist, obstMinDist);
-
         testAnimation = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                createActionModTwo();
+                createAction(acGameMusic, acObstaclePassed);
             }
         };
         testAnimation.start();
     }
 
-
+    //this method is called if a button is hovered
     private void onButtonHover(double btnWidthScaleBig, double btnWidthScaleRegular, double btnHeight, double btnLeftAnchorScaleBig, double btnLeftAnchorScaleRegular, Button btn, String btnText) {
         Scale scaleTransformation = new Scale();
         if (alreadyHovered != true) {
@@ -167,6 +184,7 @@ public class Playground {
         btn.setCursor(Cursor.HAND);
     }
 
+    //creating the text field fr the players name
     private TextField createTextField(int tfWidth, int tfHeight, String tfBorderColor) {
         tfName.setMinSize(tfWidth, tfHeight);
         tfName.setPromptText("Whats your name?");
@@ -183,24 +201,26 @@ public class Playground {
 
 
     public void keyPressed(KeyEvent e) {
+        //if space is pressed the player flies up
         if (e.getCode() == KeyCode.SPACE) {
             AnchorPane.setTopAnchor(player, AnchorPane.getTopAnchor(player) - 50);
             speed = 0.5;
-
+            //if arrow down is pressed the player flies down
         } else if (e.getCode() == KeyCode.DOWN) {
             AnchorPane.setTopAnchor(player, AnchorPane.getTopAnchor(player) + 50);
         }
     }
 
-
-    public void createActionModTwo() {
-        if(acGameMusic.isPlaying() == false){
+    //is called in a high frequency
+    public void createAction(AudioClip acGameMusic, AudioClip acObstaclePassed) {
+        //playing game music if it's not already played
+        if (acGameMusic.isPlaying() == false) {
             acGameMusic.play(0.1);
         }
         //increments speed of flying down (player)
         speed += 0.02d;
         AnchorPane.setTopAnchor(player, AnchorPane.getTopAnchor(player) + speed);
-        //change speed of obstacle if count is 5
+        //speed of the obstacles depends on the score
         if (count == 5) {
             speedObstacle = 2;
         } else if (count == 20) {
@@ -226,7 +246,6 @@ public class Playground {
                 //counts how many rectangles are passed
                 count += 1;
                 lblCounter.setText(String.valueOf(count));
-
                 //setting different distances between obstacles
                 obstDist = setRandomDistance(100, 800, 300);
                 if (i == 0) {
@@ -241,12 +260,10 @@ public class Playground {
                 rectangles[i + 1].setHeight(800 - obstHeight - 200);
                 i++;
             }
-//Problems: Obstacles arent same X-Position
-            //Idea: Make it possible to fly down faster by clicking vk_down (but only five times a game)
-
         }
     }
 
+    //checks if player hits a obstacle
     private void playerHitsObstacle(int count) {
         try {
             if (AnchorPane.getBottomAnchor(rectangles[count]) == 0) {
@@ -255,6 +272,7 @@ public class Playground {
                     playerDies();
                 }
             }
+            //if a NPE occurs it means that the obstacle is on the top
         } catch (NullPointerException e) {
             if ((AnchorPane.getLeftAnchor(rectangles[count]) >= AnchorPane.getLeftAnchor(player) - 80 && AnchorPane.getLeftAnchor(rectangles[count]) <= AnchorPane.getLeftAnchor(player) + 80) && rectangles[count].getHeight() >= AnchorPane.getTopAnchor(player)) {
                 playerDies();
@@ -263,13 +281,18 @@ public class Playground {
 
     }
 
+    //this method is triggered if a player hits a obstacle
     private void playerDies() {
+        //restart button gets visible
         btnRestartGame.setVisible(true);
+        //flow of obstacles stops
         testAnimation.stop();
+        //obstacles are deleted
         for (int i = 0; i < rectangles.length; i++) {
             playground.getChildren().remove(rectangles[i]);
         }
         playground.getChildren().remove(player);
+        //score gets written in the files
         try {
             Files.write(Paths.get("res/ranking_names.txt"), ('\n' + count + " " + player.getPlName() + '\n').getBytes(), StandardOpenOption.WRITE);
             Files.write(Paths.get("res/ranking_scores.txt"), String.valueOf('\n' + count + '\n').getBytes(), StandardOpenOption.WRITE);
@@ -279,14 +302,13 @@ public class Playground {
         }
     }
 
-    private void onRestartGameButtonClicked() {
+    private void onRestartGameButtonClicked(AudioClip acGameMusic, AudioClip acObstaclePassed) {
         speedObstacle = 0;
         btnRestartGame.setVisible(false);
         playground.getChildren().remove(lblCounter);
         count = 0;
-        onStartGameButtonClicked(100, 800, 300);
+        onStartGameButtonClicked(100, 800, 300, acGameMusic, acObstaclePassed);
     }
-    //Obstacles aren't in one x-position
 
     public void setObstacles(double obstWidth, double obstMaxDist, double obstMinDist) {
         for (int i = 0; i < rectangles.length; i++) {
@@ -349,22 +371,20 @@ public class Playground {
             System.out.println(listOfInteger);
             Collections.reverse(listOfInteger);
             ranking = Files.readAllLines(Paths.get("res/ranking_names.txt"));
-            for (int i = 0; i < ranking.size(); i++){
-                    if (ranking.get(i).startsWith(String.valueOf(listOfInteger.get(0)))) {
-                        leaderboard += ranking.get(i) + '\n' + '\n';
-                        for (int x = 0; x < ranking.size(); x++){
-                            if (ranking.get(x).startsWith(String.valueOf(listOfInteger.get(1)))) {
-                                leaderboard += ranking.get(x) + '\n' + '\n';
-                                for (int y = 0; y < ranking.size(); y++){
-                                    if (ranking.get(y).startsWith(String.valueOf(listOfInteger.get(2)))) {
-                                        leaderboard += ranking.get(y) + '\n' + '\n';
-                                        continue;
-                                    }
-
+            for (int i = 0; i < ranking.size(); i++) {
+                if (ranking.get(i).startsWith(String.valueOf(listOfInteger.get(0)))) {
+                    leaderboard += ranking.get(i) + '\n' + '\n';
+                    for (int x = 0; x < ranking.size(); x++) {
+                        if (ranking.get(x).startsWith(String.valueOf(listOfInteger.get(1)))) {
+                            leaderboard += ranking.get(x) + '\n' + '\n';
+                            for (int y = 0; y < ranking.size(); y++) {
+                                if (ranking.get(y).startsWith(String.valueOf(listOfInteger.get(2)))) {
+                                    leaderboard += ranking.get(y) + '\n' + '\n';
                                 }
-                            }
 
+                            }
                         }
+                    }
                 }
 
             }
@@ -374,13 +394,12 @@ public class Playground {
             throw new RuntimeException(e);
         }
     }
+
     public static <T, U> List<U>
     convertStringListToIntList(List<T> listOfString,
-                               Function<T, U> function)
-    {
+                               Function<T, U> function) {
         return listOfString.stream()
                 .map(function)
                 .collect(Collectors.toList());
     }
-
 }

@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.bytedeco.javacv.*;
@@ -47,6 +48,9 @@ public class GameLogic extends Application {
     private double obstMaxDist = 800;
     private double obstMinDist = 300;
 
+    //Sounds
+    AudioClip acGameMusic = new AudioClip("file:res/gamemusic.mp3");
+    AudioClip acObstaclePassed = new AudioClip("file:res/obstaclePassedSound.mp3");
 
     public static void main(String[] args) {
        launch(args);
@@ -56,7 +60,7 @@ public class GameLogic extends Application {
     public void start(Stage primaryStage)  {
         primaryStage.setTitle("CustomFlappyBird");
         primaryStage.setResizable(false);
-        primaryStage.setScene(playground.createPlayground(WIDTH, HEIGHT, BTNWIDTH, BTNHEIGHT, BTNCOLOR, BTNTEXTCOLOR, BTNBORDERCOLOR, TFWIDTH, TFHEIGHT, TFBORDERCOLOR, BTNLEFTANCHOR, BTNTOPANCHOR, TFLEFTANCHOR, TFTOPANCHOR, btnWidthScaleBig,  btnWidthScaleRegular,  btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist));
+        primaryStage.setScene(playground.createPlayground(WIDTH, HEIGHT, BTNWIDTH, BTNHEIGHT, BTNCOLOR, BTNTEXTCOLOR, BTNBORDERCOLOR, TFWIDTH, TFHEIGHT, TFBORDERCOLOR, BTNLEFTANCHOR, BTNTOPANCHOR, TFLEFTANCHOR, TFTOPANCHOR, btnWidthScaleBig,  btnWidthScaleRegular,  btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, acGameMusic, acObstaclePassed));
         primaryStage.show();
     }
 }
