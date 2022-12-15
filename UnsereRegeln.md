@@ -4,3 +4,4 @@ In unserem Projekt setzen wir auf das GitHub Flow Modell und passen dies unseren
 # Unsere Regeln: 
 1. Wir committen häufig kleine Änderungen. 
 2. Wir beschreiben unsere Commits prägnant und verständlich. 
+3. Um einen Branch in Master zu mergen, muss zunächst ein Pull-Request erstellt werden. Änderungen hierbei müssen von mindestens zwei anderen Personen gesehen, überprüft und genehmigt werden.
