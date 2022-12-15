@@ -1,0 +1,4 @@
+You can find all appearing bugs that need to be fixed here:
+    - every time you click on "Restart Game" the obstacles aren't moving anymore
+    - clicking "Restart Game" should change the players image - but just a black rectangle appears
+    - highscore isn't written correctly in .txt
