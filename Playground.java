@@ -47,9 +47,6 @@ public class Playground {
 
 
     Rectangle[] rectangles = new Rectangle[18];
-    double checkSumtest = 0;
-    double testAnchor = 0;
-    double obstHeightNew = 0;
     int count = 0;
     ImagePattern imagePatternObstacle = new ImagePattern(new Image("file:res/obstacle_1.png"));
     ImagePattern imagePatternObstacleRotated = new ImagePattern(new Image("file:res/obstacle_1_rotated.png"));
