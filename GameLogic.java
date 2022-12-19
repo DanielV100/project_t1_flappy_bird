@@ -58,7 +58,7 @@ public class GameLogic extends Application {
 
     @Override
     public void start(Stage primaryStage)  {
-        primaryStage.setTitle("CustomFlappyBird");
+        primaryStage.setTitle("FlappyFace X-Mas");
         primaryStage.setResizable(false);
         primaryStage.setScene(playground.createPlayground(WIDTH, HEIGHT, BTNWIDTH, BTNHEIGHT, BTNCOLOR, BTNTEXTCOLOR, BTNBORDERCOLOR, TFWIDTH, TFHEIGHT, TFBORDERCOLOR, BTNLEFTANCHOR, BTNTOPANCHOR, TFLEFTANCHOR, TFTOPANCHOR, btnWidthScaleBig,  btnWidthScaleRegular,  btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, acGameMusic, acObstaclePassed));
         primaryStage.show();
