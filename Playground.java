@@ -303,7 +303,7 @@ public class Playground {
     }
 
     private void onRestartGameButtonClicked(AudioClip acGameMusic, AudioClip acObstaclePassed) {
-        speedObstacle = 0;
+        speedObstacle = 1;
         btnRestartGame.setVisible(false);
         playground.getChildren().remove(lblCounter);
         count = 0;
