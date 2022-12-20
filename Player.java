@@ -41,7 +41,7 @@ public class Player extends Rectangle {
         } catch (FrameGrabber.Exception e) {
             noWebcam();
             throw new RuntimeException(e);
-            System.out.println("You don´t have a camera");
+
         }
     }
     private void noWebcam(){

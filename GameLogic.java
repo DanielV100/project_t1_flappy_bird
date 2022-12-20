@@ -51,6 +51,7 @@ public class GameLogic extends Application {
     //Sounds
     AudioClip acGameMusic = new AudioClip("file:res/gamemusic.mp3");
     AudioClip acObstaclePassed = new AudioClip("file:res/obstaclePassedSound.mp3");
+    AudioClip acGameMusicSummer = new AudioClip("file:res/gamemusicsummer.mp3");
 
     public static void main(String[] args) {
        launch(args);
@@ -60,7 +61,7 @@ public class GameLogic extends Application {
     public void start(Stage primaryStage)  {
         primaryStage.setTitle("FlappyFace X-Mas");
         primaryStage.setResizable(false);
-        primaryStage.setScene(playground.createPlayground(WIDTH, HEIGHT, BTNWIDTH, BTNHEIGHT, BTNCOLOR, BTNTEXTCOLOR, BTNBORDERCOLOR, TFWIDTH, TFHEIGHT, TFBORDERCOLOR, BTNLEFTANCHOR, BTNTOPANCHOR, TFLEFTANCHOR, TFTOPANCHOR, btnWidthScaleBig,  btnWidthScaleRegular,  btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, acGameMusic, acObstaclePassed));
+        primaryStage.setScene(playground.createPlayground(WIDTH, HEIGHT, BTNWIDTH, BTNHEIGHT, BTNCOLOR, BTNTEXTCOLOR, BTNBORDERCOLOR, TFWIDTH, TFHEIGHT, TFBORDERCOLOR, BTNLEFTANCHOR, BTNTOPANCHOR, TFLEFTANCHOR, TFTOPANCHOR, btnWidthScaleBig,  btnWidthScaleRegular,  btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, acGameMusic, acObstaclePassed, acGameMusicSummer));
         primaryStage.show();
 
     }
