@@ -64,7 +64,7 @@ public class Playground {
     boolean isSummer = false;
     boolean isSummerObstacle = false;
 
-    public Scene createPlayground(int width, int height, int btnWidth, int btnHeight, String btnColor, String btnTextColor, String btnBorderColor, int tfWidth, int tfHeight, String tfBorderColor, double btnLeftAnchor, double btnTopAnchor, double tfLeftAnchor, double tfTopAnchor, double btnWidthScaleBig, double btnWidthScaleRegular, double btnLeftAnchorScaleBig, double btnLeftAnchorScaleRegular, double obstWidth, double obstMaxDist, double obstMinDist, AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer) {
+    public Scene createPlayground(int width, int height, int btnWidth, int btnHeight, String btnColor, String btnTextColor, String btnBorderColor, int tfWidth, int tfHeight, String tfBorderColor, double btnLeftAnchor, double btnTopAnchor, double tfLeftAnchor, double tfTopAnchor, double btnWidthScaleBig, double btnWidthScaleRegular, double btnLeftAnchorScaleBig, double btnLeftAnchorScaleRegular, double obstWidth, double obstMaxDist, double obstMinDist, AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer, AudioClip acObstaclePassed_Summer) {
         btnRestartGame.setDisable(true);
         //playing game music
         acGameMusic.play(0.2);
@@ -87,8 +87,8 @@ public class Playground {
         lblCounter.setVisible(false);
         playground.getChildren().add(lblCounter);
         //adding buttons to the playground
-        playground.getChildren().add(createButton(btnWidth, btnHeight, btnColor, btnTextColor, btnBorderColor, btnWidthScaleBig, btnWidthScaleRegular, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, btnStartGame, "Start Game!", true, false, btnLeftAnchor, btnTopAnchor, acGameMusic, acObstaclePassed, acGameMusicSummer));
-        playground.getChildren().add(createButton(btnWidth, btnHeight, btnColor, btnTextColor, btnBorderColor, btnWidthScaleBig, btnWidthScaleRegular, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, btnRestartGame, "Restart Game!", false, true, btnLeftAnchor, btnTopAnchor, acGameMusic, acObstaclePassed, acGameMusicSummer));
+        playground.getChildren().add(createButton(btnWidth, btnHeight, btnColor, btnTextColor, btnBorderColor, btnWidthScaleBig, btnWidthScaleRegular, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, btnStartGame, "Start Game!", true, false, btnLeftAnchor, btnTopAnchor, acGameMusic, acObstaclePassed, acGameMusicSummer, acObstaclePassed_Summer));
+        playground.getChildren().add(createButton(btnWidth, btnHeight, btnColor, btnTextColor, btnBorderColor, btnWidthScaleBig, btnWidthScaleRegular, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist, btnRestartGame, "Restart Game!", false, true, btnLeftAnchor, btnTopAnchor, acGameMusic, acObstaclePassed, acGameMusicSummer, acObstaclePassed_Summer));
         playground.getChildren().add(createTextField(tfWidth, tfHeight, tfBorderColor));
         AnchorPane.setLeftAnchor(tfName, tfLeftAnchor);
         AnchorPane.setTopAnchor(tfName, tfTopAnchor);
@@ -116,7 +116,7 @@ public class Playground {
     }
 
     //method for creating the buttons (so they look and behave equally)
-    private Button createButton(int btnWidth, int btnHeight, String btnColor, String btnTextColor, String btnBorderColor, double btnWidthScaleBig, double btnWidthScaleRegular, double btnLeftAnchorScaleBig, double btnLeftAnchorScaleRegular, double obstWidth, double obstMaxDist, double obstMinDist, Button btn, String btnText, boolean btnStart, boolean btnRestart, double btnLeftAnchor, double btnTopAnchor, AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer) {
+    private Button createButton(int btnWidth, int btnHeight, String btnColor, String btnTextColor, String btnBorderColor, double btnWidthScaleBig, double btnWidthScaleRegular, double btnLeftAnchorScaleBig, double btnLeftAnchorScaleRegular, double obstWidth, double obstMaxDist, double obstMinDist, Button btn, String btnText, boolean btnStart, boolean btnRestart, double btnLeftAnchor, double btnTopAnchor, AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer, AudioClip acObstaclePassed_Summer) {
         btn.setMinWidth(btnWidth);
         btn.setMinHeight(btnHeight);
         btn.setText(btnText);
@@ -129,13 +129,13 @@ public class Playground {
         //true if it's the Reset Game button
         if (btnRestart) {
             btn.setVisible(false);
-            btn.setOnAction((event) -> onRestartGameButtonClicked(acGameMusic, acObstaclePassed, acGameMusicSummer));
+            btn.setOnAction((event) -> onRestartGameButtonClicked(acGameMusic, acObstaclePassed, acGameMusicSummer, acObstaclePassed_Summer));
             btn.setOnMouseEntered((event -> onButtonHover(btnWidthScaleBig, btnWidthScaleRegular, btnHeight, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, btnRestartGame, btnText)));
             btn.setOnMouseExited((event -> onButtonHover(btnWidthScaleBig, btnWidthScaleRegular, btnHeight, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, btnRestartGame, btnText)));
         }
         //true if it's the Start Game Button
         if (btnStart) {
-            btn.setOnAction((event) -> onStartGameButtonClicked(obstWidth, obstMaxDist, obstMinDist, acGameMusic, acObstaclePassed, acGameMusicSummer));
+            btn.setOnAction((event) -> onStartGameButtonClicked(obstWidth, obstMaxDist, obstMinDist, acGameMusic, acObstaclePassed, acGameMusicSummer, acObstaclePassed_Summer));
             btn.setOnMouseExited((event -> onButtonHover(btnWidthScaleBig, btnWidthScaleRegular, btnHeight, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, btnStartGame, btnText)));
             btn.setOnMouseEntered((event -> onButtonHover(btnWidthScaleBig, btnWidthScaleRegular, btnHeight, btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, btnStartGame, btnText)));
         }
@@ -143,7 +143,7 @@ public class Playground {
     }
 
     //method is triggerd when the Start Game button is clicked
-    private void onStartGameButtonClicked(double obstWidth, double obstMaxDist, double obstMinDist, AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer) {
+    private void onStartGameButtonClicked(double obstWidth, double obstMaxDist, double obstMinDist, AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer, AudioClip acObstaclePassed_Summer) {
         btnStartGame.setVisible(false);
         tfName.setVisible(false);
         //leaderboard gets invisible
@@ -165,7 +165,7 @@ public class Playground {
         testAnimation = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                createAction(acGameMusic, acObstaclePassed, acGameMusicSummer);
+                createAction(acGameMusic, acObstaclePassed, acGameMusicSummer, acObstaclePassed_Summer);
             }
         };
         testAnimation.start();
@@ -220,7 +220,7 @@ public class Playground {
     }
 
     //is called in a high frequency
-    public void createAction(AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer) {
+    public void createAction(AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer, AudioClip acObstaclePassed_Summer) {
         //playing game music if it's not already played
         if(count < 5){
             if (acGameMusic.isPlaying() == false) {
@@ -342,12 +342,12 @@ public class Playground {
     }
 
 
-    private void onRestartGameButtonClicked(AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer) {
+    private void onRestartGameButtonClicked(AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer, AudioClip acObstaclePassed_Summer) {
         speedObstacle = 1;
         btnRestartGame.setVisible(false);
         playground.getChildren().remove(lblCounter);
         count = 0;
-        onStartGameButtonClicked(100, 800, 300, acGameMusic, acObstaclePassed, acGameMusicSummer);
+        onStartGameButtonClicked(100, 800, 300, acGameMusic, acObstaclePassed, acGameMusicSummer, acObstaclePassed_Summer);
     }
 
 
