@@ -156,7 +156,11 @@ public class Playground {
         //setting background image
         playground.setBackground(setBackground("file:res/background.png"));
         //creating a new player
-        player = new Player(tfName.getText(), 80.0);
+        if(tfName.getText() == ""){
+            player = new Player("Anonymous", 80.0);
+        } else{
+            player = new Player(tfName.getText(), 80.0);
+        }
         AnchorPane.setLeftAnchor(player, 640.0);
         AnchorPane.setTopAnchor(player, 360.0);
         playground.getChildren().add(player);
