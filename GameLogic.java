@@ -58,6 +58,6 @@ public class GameLogic extends Application {
         primaryStage.setResizable(false);
         primaryStage.setScene(playground.createPlayground(WIDTH, HEIGHT, BTNWIDTH, BTNHEIGHT, BTNCOLOR, BTNTEXTCOLOR, BTNBORDERCOLOR, TFWIDTH, TFHEIGHT, TFBORDERCOLOR, BTNLEFTANCHOR, BTNTOPANCHOR, TFLEFTANCHOR, TFTOPANCHOR, btnWidthScaleBig,  btnWidthScaleRegular,  btnLeftAnchorScaleBig, btnLeftAnchorScaleRegular, obstWidth, obstMaxDist, obstMinDist));
         primaryStage.show();
-        //unnoetiger
+        //
     }
 }
