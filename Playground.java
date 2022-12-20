@@ -49,7 +49,8 @@ public class Playground {
     int count = 0;
     ImagePattern imagePatternObstacle = new ImagePattern(new Image("file:res/obstacle_1.png"));
     ImagePattern imagePatternObstacleRotated = new ImagePattern(new Image("file:res/obstacle_1_rotated.png"));
-
+    ImagePattern imagePatternObstacleRotated_summer = new ImagePattern(new Image("file:res/obstacle_2.png"));
+    ImagePattern imagePatternObstacle_summer = new ImagePattern(new Image("file:res/obstacle_2_rotated.png"));
     double speedObstacle = 1;
     double obstDist = 0;
     double obstHeight = 0;
@@ -218,21 +219,18 @@ public class Playground {
     public void createAction(AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer) {
         //playing game music if it's not already played
         if(count < 5){
-
             if (acGameMusic.isPlaying() == false) {
                 acGameMusic.play(0.1);
             }
         } else if (count == 5) {
             acGameMusic.stop();
             if (acGameMusicSummer.isPlaying() == false) {
-                acGameMusicSummer.play(0.9);
+                acGameMusicSummer.play(0.1);
                 playground.setBackground(setBackground("file:res/background_summer.png"));
             }
-
-
         } else if(count >= 5){
             if (acGameMusicSummer.isPlaying() == false) {
-                acGameMusicSummer.play(0.9);
+                acGameMusicSummer.play(0.1);
             }
         }
 
@@ -251,6 +249,13 @@ public class Playground {
         }
         //iterate through all obstacles
         for (int i = 0; i < rectangles.length; i++) {
+
+            if(i % 2 == 0 && count == 5){
+                rectangles[i].setFill(imagePatternObstacleRotated_summer);
+            } else if (i % 2 != 0 && count == 5) {
+                rectangles[i].setFill(imagePatternObstacle_summer);
+            }
+
             //let the obstacles flow left with a velocity of 2
             AnchorPane.setLeftAnchor(rectangles[i], AnchorPane.getLeftAnchor(rectangles[i]) - speedObstacle);
             //inspect if player hits obstacle
