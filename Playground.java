@@ -229,12 +229,12 @@ public class Playground {
         } else if (count == 5) {
             acGameMusic.stop();
             if (acGameMusicSummer.isPlaying() == false) {
-                acGameMusicSummer.play(0.1);
+                acGameMusicSummer.play(0.8);
                 playground.setBackground(setBackground("file:res/background_summer.png"));
             }
         } else if(count >= 5){
             if (acGameMusicSummer.isPlaying() == false) {
-                acGameMusicSummer.play(0.1);
+                acGameMusicSummer.play(0.8);
             }
         }
 
