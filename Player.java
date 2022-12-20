@@ -44,7 +44,8 @@ public class Player extends Rectangle {
 
         }
     }
-    private void noWebcam(){
-
+    private Image noWebcam(){
+        Image imgPlayer = new Image("file:res/nowebcam.png");
+        return imgPlayer;
     }
 }
