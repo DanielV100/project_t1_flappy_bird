@@ -266,11 +266,20 @@ public class Playground {
             playerHitsObstacle(i);
             if (AnchorPane.getLeftAnchor(rectangles[i]) < 8 /* && AnchorPane.getLeftAnchor(rectangles[i + 1]) < 8 */) {
                 //plays sound if obstacles are on left end
-                if (acObstaclePassed.isPlaying()) {
-                    acObstaclePassed.stop();
-                } else {
-                    acObstaclePassed.play(0.3);
+                if(count < 5){
+                    if (acObstaclePassed.isPlaying()) {
+                        acObstaclePassed.stop();
+                    } else {
+                        acObstaclePassed.play(0.3);
+                    }
+                } else if (count >= 5) {
+                    if (acObstaclePassed_Summer.isPlaying()) {
+                        acObstaclePassed_Summer.stop();
+                    } else {
+                        acObstaclePassed_Summer.play(0.3);
+                    }
                 }
+
                 //counts how many rectangles are passed
                 count += 1;
                 lblCounter.setText(String.valueOf(count));
