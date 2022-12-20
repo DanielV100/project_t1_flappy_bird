@@ -26,6 +26,8 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+
+
 public class Playground {
 
     //declaring and intialising components of the playground
@@ -43,6 +45,7 @@ public class Playground {
     private AnimationTimer testAnimation;
     double speed;
     Random random = new Random();
+    private static final String NEW_LINE = System.lineSeparator();
 
 
     Rectangle[] rectangles = new Rectangle[18];
@@ -62,6 +65,7 @@ public class Playground {
     boolean isSummerObstacle = false;
 
     public Scene createPlayground(int width, int height, int btnWidth, int btnHeight, String btnColor, String btnTextColor, String btnBorderColor, int tfWidth, int tfHeight, String tfBorderColor, double btnLeftAnchor, double btnTopAnchor, double tfLeftAnchor, double tfTopAnchor, double btnWidthScaleBig, double btnWidthScaleRegular, double btnLeftAnchorScaleBig, double btnLeftAnchorScaleRegular, double obstWidth, double obstMaxDist, double obstMinDist, AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer) {
+        btnRestartGame.setDisable(true);
         //playing game music
         acGameMusic.play(0.2);
         //settings for playground;
@@ -320,8 +324,8 @@ public class Playground {
         playground.getChildren().remove(player);
         //score gets written in the files
         try {
-            Files.write(Paths.get("res/ranking_names.txt"), ('\n' + count + " " + player.getPlName() + '\n').getBytes(), StandardOpenOption.WRITE);
-            Files.write(Paths.get("res/ranking_scores.txt"), String.valueOf('\n' + count + '\n').getBytes(), StandardOpenOption.WRITE);
+            Files.write(Paths.get("res/ranking_names.txt"), (NEW_LINE + count + " " + player.getPlName()).getBytes(), StandardOpenOption.APPEND);
+            Files.write(Paths.get("res/ranking_scores.txt"), (NEW_LINE + String.valueOf(count)).getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
