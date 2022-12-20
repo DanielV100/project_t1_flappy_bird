@@ -39,7 +39,11 @@ public class Player extends Rectangle {
             webcamCapturer.stop();
             return imgPlayer;
         } catch (FrameGrabber.Exception e) {
+            noWebcam();
             throw new RuntimeException(e);
         }
+    }
+    private void noWebcam(){
+
     }
 }
