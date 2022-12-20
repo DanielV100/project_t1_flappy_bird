@@ -58,6 +58,7 @@ public class Playground {
     private String urlBtnSound = "file:res/btnClickSound.m4a";
     AudioClip acPlayerDies = new AudioClip("file:res/soundOfDeath.mp3");
     boolean isSummer = false;
+    boolean isSummerObstacle = false;
 
     public Scene createPlayground(int width, int height, int btnWidth, int btnHeight, String btnColor, String btnTextColor, String btnBorderColor, int tfWidth, int tfHeight, String tfBorderColor, double btnLeftAnchor, double btnTopAnchor, double tfLeftAnchor, double tfTopAnchor, double btnWidthScaleBig, double btnWidthScaleRegular, double btnLeftAnchorScaleBig, double btnLeftAnchorScaleRegular, double obstWidth, double obstMaxDist, double obstMinDist, AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer) {
         //playing game music
@@ -216,12 +217,12 @@ public class Playground {
     //is called in a high frequency
     public void createAction(AudioClip acGameMusic, AudioClip acObstaclePassed, AudioClip acGameMusicSummer) {
         //playing game music if it's not already played
-        if(count < 2){
+        if(count < 5){
 
             if (acGameMusic.isPlaying() == false) {
                 acGameMusic.play(0.1);
             }
-        } else if(count > 2 && isSummer == false){
+        } else if(count > 5 && isSummer == false){
             playground.setBackground(setBackground("file:res/background_summer.png"));
             isSummer = true;
             if (acGameMusicSummer.isPlaying() == false) {
