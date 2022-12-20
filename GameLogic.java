@@ -46,7 +46,7 @@ public class GameLogic extends Application {
     //Obstacles
     private double obstWidth = 100;
     private double obstMaxDist = 800;
-    private double obstMinDist = 300;
+    private double obstMinDist = 400;
 
     //Sounds
     AudioClip acGameMusic = new AudioClip("file:res/gamemusic.mp3");
